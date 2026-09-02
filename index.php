@@ -220,13 +220,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_message'])) {
                 <span class="text-info font-monospace"><?= $t['portfolio_showcase'] ?></span>
                 <h2 class="fw-bold text-white fs-1"><?= $t['recent_projects'] ?></h2>
 
-                <!-- Category Filters -->
+                <!-- Dynamic Category Filters -->
+                <?php
+                $active_project_categories = db()->query("SELECT DISTINCT category FROM projects WHERE category IS NOT NULL AND category != '' ORDER BY category ASC")->fetchAll(PDO::FETCH_COLUMN);
+                ?>
                 <div class="d-flex justify-content-center flex-wrap gap-2 mt-4">
                     <button class="btn btn-futuristic project-filter-btn active" data-filter="all"><?= $t['all_projects'] ?></button>
-                    <button class="btn btn-outline-futuristic project-filter-btn" data-filter="Web">Web</button>
-                    <button class="btn btn-outline-futuristic project-filter-btn" data-filter="Application">Application</button>
-                    <button class="btn btn-outline-futuristic project-filter-btn" data-filter="UI/UX">UI/UX</button>
-                    <button class="btn btn-outline-futuristic project-filter-btn" data-filter="Data">Data</button>
+                    <?php foreach ($active_project_categories as $cat_btn): ?>
+                        <button class="btn btn-outline-futuristic project-filter-btn" data-filter="<?= sanitize($cat_btn) ?>"><?= sanitize($cat_btn) ?></button>
+                    <?php endforeach; ?>
                 </div>
             </div>
 

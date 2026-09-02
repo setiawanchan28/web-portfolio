@@ -105,13 +105,22 @@ if ($action === 'add' || $action === 'edit'):
                     <input type="text" name="title" class="form-control" value="<?= sanitize($project['title'] ?? '') ?>" required placeholder="Contoh: Website Sistem Informasi Desa">
                 </div>
                 <div class="col-md-4">
-                    <label class="form-label">Kategori</label>
-                    <select name="category" class="form-select" required>
-                        <?php $cats = ['Web', 'Application', 'UI/UX', 'Data', 'Other']; ?>
-                        <?php foreach ($cats as $cat): ?>
-                            <option value="<?= $cat ?>" <?= ($project['category'] ?? '') === $cat ? 'selected' : '' ?>><?= $cat ?></option>
+                    <label class="form-label">Kategori Project</label>
+                    <?php 
+                    $existing_categories = db()->query("SELECT DISTINCT category FROM projects WHERE category IS NOT NULL AND category != '' ORDER BY category ASC")->fetchAll(PDO::FETCH_COLUMN);
+                    ?>
+                    <input type="text" name="category" class="form-control" list="project_category_list" value="<?= sanitize($project['category'] ?? 'Web') ?>" placeholder="Ketik atau pilih kategori..." required>
+                    <datalist id="project_category_list">
+                        <?php foreach ($existing_categories as $c): ?>
+                            <option value="<?= sanitize($c) ?>">
                         <?php endforeach; ?>
-                    </select>
+                        <?php foreach (['Web', 'Application', 'UI/UX', 'Data'] as $c): ?>
+                            <?php if (!in_array($c, $existing_categories)): ?>
+                                <option value="<?= $c ?>">
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </datalist>
+                    <small class="text-muted d-block mt-1">Bisa pilih dari daftar atau ketik kategori baru secara bebas.</small>
                 </div>
                 <div class="col-12">
                     <label class="form-label">Deskripsi Singkat (Short Description)</label>
