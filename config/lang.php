@@ -1,0 +1,107 @@
+<?php
+/**
+ * Language Translations (ID & EN)
+ */
+
+$lang = [
+    'id' => [
+        'home' => 'Home',
+        'about' => 'Tentang',
+        'skills' => 'Keahlian',
+        'projects' => 'Project',
+        'experience' => 'Pengalaman',
+        'services' => 'Layanan',
+        'articles' => 'Artikel',
+        'contact' => 'Kontak',
+        'connect' => 'Terhubung:',
+        'see_portfolio' => 'Lihat Portfolio',
+        'contact_me' => 'Hubungi Saya',
+        'about_me' => 'Tentang Saya',
+        'years_exp' => 'Tahun Pengalaman',
+        'projects_completed' => 'Project Selesai',
+        'websites_built' => 'Website Dibuat',
+        'tech_stack' => 'Teknologi',
+        'download_cv' => 'Download CV / Resume',
+        'skills_title' => 'Keahlian & Skills',
+        'tech_competencies' => 'STAK TEKNOLOGI & KOMPETENSI',
+        'recent_projects' => 'Project Terbaru',
+        'portfolio_showcase' => 'PORTOFOLIO SHOWCASE',
+        'all_projects' => 'Semua Project',
+        'live_demo' => 'Live Demo',
+        'github_repo' => 'GitHub Repo',
+        'work_experience' => 'Pengalaman Kerja',
+        'career_path' => 'REKAM JEJAK KARIR',
+        'present' => 'Sekarang',
+        'what_i_offer' => 'LAYANAN SAYA',
+        'my_services' => 'Layanan Profesional',
+        'latest_articles' => 'Artikel Terbaru',
+        'insights' => 'WAWASAN & ARTIKEL',
+        'min_read' => 'min baca',
+        'get_in_touch' => 'HUBUNGI SAYA',
+        'contact_title' => 'Mari Bekerja Sama',
+        'contact_desc' => 'Tertarik bekerja sama atau punya pertanyaan? Silakan hubungi saya melalui form ini atau kontak sosial media.',
+        'your_name' => 'Nama Anda',
+        'your_email' => 'Email Anda',
+        'subject' => 'Subjek Pesan',
+        'your_message' => 'Isi Pesan',
+        'send_message' => 'Kirim Pesan',
+        'msg_success' => 'Pesan Anda berhasil dikirim! Saya akan segera membalasnya.',
+        'msg_error' => 'Gagal mengirim pesan. Pastikan semua kolom telah diisi!',
+        'location' => 'Lokasi',
+        'all_rights' => 'Hak Cipta Dilindungi.'
+    ],
+    'en' => [
+        'home' => 'Home',
+        'about' => 'About',
+        'skills' => 'Skills',
+        'projects' => 'Projects',
+        'experience' => 'Experience',
+        'services' => 'Services',
+        'articles' => 'Articles',
+        'contact' => 'Contact',
+        'connect' => 'Connect:',
+        'see_portfolio' => 'View Portfolio',
+        'contact_me' => 'Contact Me',
+        'about_me' => 'About Me',
+        'years_exp' => 'Years Exp.',
+        'projects_completed' => 'Projects Completed',
+        'websites_built' => 'Websites Built',
+        'tech_stack' => 'Tech Stack',
+        'download_cv' => 'Download CV / Resume',
+        'skills_title' => 'Skills & Expertise',
+        'tech_competencies' => 'TECH STACK & COMPETENCIES',
+        'recent_projects' => 'Recent Projects',
+        'portfolio_showcase' => 'PORTFOLIO SHOWCASE',
+        'all_projects' => 'All Projects',
+        'live_demo' => 'Live Demo',
+        'github_repo' => 'GitHub Repo',
+        'work_experience' => 'Work Experience',
+        'career_path' => 'CAREER PATH',
+        'present' => 'Present',
+        'what_i_offer' => 'WHAT I OFFER',
+        'my_services' => 'Professional Services',
+        'latest_articles' => 'Latest Articles',
+        'insights' => 'INSIGHTS & KNOWLEDGE',
+        'min_read' => 'min read',
+        'get_in_touch' => 'GET IN TOUCH',
+        'contact_title' => 'Let\'s Work Together',
+        'contact_desc' => 'Interested in collaborating or have a question? Feel free to send a message or reach out via social media.',
+        'your_name' => 'Your Name',
+        'your_email' => 'Your Email',
+        'subject' => 'Subject',
+        'your_message' => 'Message',
+        'send_message' => 'Send Message',
+        'msg_success' => 'Your message has been sent successfully! I will get back to you soon.',
+        'msg_error' => 'Failed to send message. Please ensure all fields are filled out!',
+        'location' => 'Location',
+        'all_rights' => 'All Rights Reserved.'
+    ]
+];
+
+// Determine active language (default: id)
+if (isset($_GET['lang']) && in_array($_GET['lang'], ['id', 'en'])) {
+    $_SESSION['lang'] = $_GET['lang'];
+}
+
+$current_lang = $_SESSION['lang'] ?? 'id';
+$t = $lang[$current_lang];
