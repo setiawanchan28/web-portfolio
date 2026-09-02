@@ -432,7 +432,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_message'])) {
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="<?= BASE_URL ?>assets/js/main.js"></script>
     <script>
-        AOS.init({ duration: 800, once: true });
+        AOS.init({ duration: 800, once: false, offset: 80 });
     </script>
 </body>
 </html>
