@@ -125,10 +125,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_message'])) {
 
                     <div class="d-flex flex-wrap gap-3 mb-4">
                         <a href="<?= sanitize($hero['cta_url_primary'] ?? '#projects') ?>" class="btn btn-futuristic">
-                            <?= sanitize($hero['cta_text_primary'] ?? $t['see_portfolio']) ?> <i class="fas fa-arrow-right ms-2"></i>
+                            <?= sanitize($current_lang === 'en' ? $t['see_portfolio'] : ($hero['cta_text_primary'] ?? $t['see_portfolio'])) ?> <i class="fas fa-arrow-right ms-2"></i>
                         </a>
                         <a href="<?= sanitize($hero['cta_url_secondary'] ?? '#contact') ?>" class="btn btn-outline-futuristic">
-                            <?= sanitize($hero['cta_text_secondary'] ?? $t['contact_me']) ?>
+                            <?= sanitize($current_lang === 'en' ? $t['contact_me'] : ($hero['cta_text_secondary'] ?? $t['contact_me'])) ?>
                         </a>
                     </div>
                 </div>
