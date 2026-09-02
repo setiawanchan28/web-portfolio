@@ -20,13 +20,15 @@ if ($action === 'delete') {
 // Handle Add Service
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_service'])) {
     $title = $_POST['title'] ?? '';
+    $title_en = $_POST['title_en'] ?? '';
     $icon_class = $_POST['icon_class'] ?? 'fas fa-laptop-code';
     $short_description = $_POST['short_description'] ?? '';
+    $short_description_en = $_POST['short_description_en'] ?? '';
     $display_order = $_POST['display_order'] ?? 0;
 
     if (!empty($title)) {
-        $stmt = db()->prepare("INSERT INTO services (title, icon_class, short_description, display_order) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$title, $icon_class, $short_description, $display_order]);
+        $stmt = db()->prepare("INSERT INTO services (title, title_en, icon_class, short_description, short_description_en, display_order) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$title, $title_en, $icon_class, $short_description, $short_description_en, $display_order]);
         set_flash('success', 'Layanan baru berhasil ditambahkan!');
     }
     header("Location: " . ADMIN_URL . "modules/services.php");
@@ -37,13 +39,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_service'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_service'])) {
     $service_id = $_POST['service_id'] ?? 0;
     $title = $_POST['title'] ?? '';
+    $title_en = $_POST['title_en'] ?? '';
     $icon_class = $_POST['icon_class'] ?? 'fas fa-laptop-code';
     $short_description = $_POST['short_description'] ?? '';
+    $short_description_en = $_POST['short_description_en'] ?? '';
     $display_order = $_POST['display_order'] ?? 0;
 
     if ($service_id > 0 && !empty($title)) {
-        $stmt = db()->prepare("UPDATE services SET title = ?, icon_class = ?, short_description = ?, display_order = ? WHERE id = ?");
-        $stmt->execute([$title, $icon_class, $short_description, $display_order, $service_id]);
+        $stmt = db()->prepare("UPDATE services SET title = ?, title_en = ?, icon_class = ?, short_description = ?, short_description_en = ?, display_order = ? WHERE id = ?");
+        $stmt->execute([$title, $title_en, $icon_class, $short_description, $short_description_en, $display_order, $service_id]);
         set_flash('success', 'Layanan berhasil diperbarui!');
     }
     header("Location: " . ADMIN_URL . "modules/services.php");
@@ -63,8 +67,12 @@ $services = db()->query("SELECT * FROM services ORDER BY display_order ASC, id D
             <form action="" method="POST">
                 <input type="hidden" name="save_service" value="1">
                 <div class="mb-3">
-                    <label class="form-label">Nama Layanan</label>
+                    <label class="form-label">Nama Layanan (ID)</label>
                     <input type="text" name="title" class="form-control" placeholder="Contoh: Website Development" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label text-info"><i class="fas fa-language me-1"></i>Nama Layanan (EN)</label>
+                    <input type="text" name="title_en" class="form-control" placeholder="e.g. Website Development">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Pilih Ikon Visual</label>
@@ -78,8 +86,12 @@ $services = db()->query("SELECT * FROM services ORDER BY display_order ASC, id D
                     </button>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Deskripsi Layanan</label>
-                    <textarea name="short_description" class="form-control" rows="3" placeholder="Tuliskan deskripsi singkat layanan..." required></textarea>
+                    <label class="form-label">Deskripsi Layanan (ID)</label>
+                    <textarea name="short_description" class="form-control" rows="2" placeholder="Tuliskan deskripsi singkat layanan..." required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label text-info"><i class="fas fa-language me-1"></i>Deskripsi Layanan (EN)</label>
+                    <textarea name="short_description_en" class="form-control" rows="2" placeholder="English short description..."></textarea>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Urutan Tampil</label>
@@ -124,10 +136,12 @@ $services = db()->query("SELECT * FROM services ORDER BY display_order ASC, id D
                                         <button type="button" class="btn btn-sm btn-outline-info edit-srv-btn me-1"
                                                 data-id="<?= $srv['id'] ?>"
                                                 data-title="<?= sanitize($srv['title']) ?>"
+                                                data-title-en="<?= sanitize($srv['title_en'] ?? '') ?>"
                                                 data-icon="<?= sanitize($srv['icon_class'] ?? 'fas fa-laptop-code') ?>"
                                                 data-desc="<?= sanitize($srv['short_description']) ?>"
+                                                data-desc-en="<?= sanitize($srv['short_description_en'] ?? '') ?>"
                                                 data-order="<?= $srv['display_order'] ?>">
-                                            <i class="fas fa-edit me-1"></i> Edit
+                                            <i class="fas fa-edit"></i> Edit
                                         </button>
                                         <a href="<?= ADMIN_URL ?>modules/services.php?action=delete&id=<?= $srv['id'] ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Hapus layanan ini?')">
                                             <i class="fas fa-trash me-1"></i> Hapus
@@ -156,15 +170,15 @@ $services = db()->query("SELECT * FROM services ORDER BY display_order ASC, id D
                 </div>
                 <div class="modal-body">
                     <div class="row g-3">
-                        <div class="col-md-7">
-                            <label class="form-label">Nama Layanan</label>
+                        <div class="col-md-6">
+                            <label class="form-label">Nama Layanan (ID)</label>
                             <input type="text" name="title" id="edit_service_title" class="form-control" required>
                         </div>
-                        <div class="col-md-5">
-                            <label class="form-label">Urutan Tampil</label>
-                            <input type="number" name="display_order" id="edit_service_order" class="form-control">
+                        <div class="col-md-6">
+                            <label class="form-label text-info"><i class="fas fa-language me-1"></i>Nama Layanan (EN)</label>
+                            <input type="text" name="title_en" id="edit_service_title_en" class="form-control" placeholder="e.g. Website Development">
                         </div>
-                        <div class="col-12">
+                        <div class="col-md-7">
                             <label class="form-label">Pilih Ikon Visual</label>
                             <input type="hidden" name="icon_class" id="edit_service_icon_class" value="fas fa-laptop-code">
                             <button type="button" class="btn btn-outline-info w-100 text-start d-flex align-items-center justify-content-between py-2" data-bs-toggle="modal" data-bs-target="#serviceIconPickerModal" id="btnOpenEditServiceIconPicker">
@@ -175,9 +189,17 @@ $services = db()->query("SELECT * FROM services ORDER BY display_order ASC, id D
                                 <span class="badge bg-info text-dark">Ganti Ikon <i class="fas fa-mouse-pointer ms-1"></i></span>
                             </button>
                         </div>
-                        <div class="col-12">
-                            <label class="form-label">Deskripsi Layanan</label>
+                        <div class="col-md-5">
+                            <label class="form-label">Urutan Tampil</label>
+                            <input type="number" name="display_order" id="edit_service_order" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Deskripsi Layanan (ID)</label>
                             <textarea name="short_description" id="edit_service_desc" class="form-control" rows="3" required></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-info"><i class="fas fa-language me-1"></i>Deskripsi Layanan (EN)</label>
+                            <textarea name="short_description_en" id="edit_service_desc_en" class="form-control" rows="3" placeholder="English description..."></textarea>
                         </div>
                     </div>
                 </div>
@@ -328,7 +350,9 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.addEventListener('click', function() {
             document.getElementById('edit_service_id').value = this.dataset.id;
             document.getElementById('edit_service_title').value = this.dataset.title;
+            document.getElementById('edit_service_title_en').value = this.dataset.titleEn || '';
             document.getElementById('edit_service_desc').value = this.dataset.desc;
+            document.getElementById('edit_service_desc_en').value = this.dataset.descEn || '';
             document.getElementById('edit_service_order').value = this.dataset.order;
 
             const iconClass = this.dataset.icon || 'fas fa-laptop-code';

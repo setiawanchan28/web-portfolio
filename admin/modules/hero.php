@@ -9,8 +9,11 @@ $hero = $stmt->fetch();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $greeting = $_POST['greeting'] ?? '';
+    $greeting_en = $_POST['greeting_en'] ?? '';
     $headline = $_POST['headline'] ?? '';
+    $headline_en = $_POST['headline_en'] ?? '';
     $subheadline = $_POST['subheadline'] ?? '';
+    $subheadline_en = $_POST['subheadline_en'] ?? '';
     $cta_text_primary = $_POST['cta_text_primary'] ?? '';
     $cta_url_primary = $_POST['cta_url_primary'] ?? '';
     $cta_text_secondary = $_POST['cta_text_secondary'] ?? '';
@@ -32,11 +35,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($hero) {
-        $update_stmt = db()->prepare("UPDATE hero SET greeting = ?, headline = ?, subheadline = ?, cta_text_primary = ?, cta_url_primary = ?, cta_text_secondary = ?, cta_url_secondary = ?, profile_image = ? WHERE id = ?");
-        $update_stmt->execute([$greeting, $headline, $subheadline, $cta_text_primary, $cta_url_primary, $cta_text_secondary, $cta_url_secondary, $profile_image, $hero['id']]);
+        $update_stmt = db()->prepare("UPDATE hero SET greeting = ?, greeting_en = ?, headline = ?, headline_en = ?, subheadline = ?, subheadline_en = ?, cta_text_primary = ?, cta_url_primary = ?, cta_text_secondary = ?, cta_url_secondary = ?, profile_image = ? WHERE id = ?");
+        $update_stmt->execute([$greeting, $greeting_en, $headline, $headline_en, $subheadline, $subheadline_en, $cta_text_primary, $cta_url_primary, $cta_text_secondary, $cta_url_secondary, $profile_image, $hero['id']]);
     } else {
-        $insert_stmt = db()->prepare("INSERT INTO hero (greeting, headline, subheadline, cta_text_primary, cta_url_primary, cta_text_secondary, cta_url_secondary, profile_image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $insert_stmt->execute([$greeting, $headline, $subheadline, $cta_text_primary, $cta_url_primary, $cta_text_secondary, $cta_url_secondary, $profile_image]);
+        $insert_stmt = db()->prepare("INSERT INTO hero (greeting, greeting_en, headline, headline_en, subheadline, subheadline_en, cta_text_primary, cta_url_primary, cta_text_secondary, cta_url_secondary, profile_image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $insert_stmt->execute([$greeting, $greeting_en, $headline, $headline_en, $subheadline, $subheadline_en, $cta_text_primary, $cta_url_primary, $cta_text_secondary, $cta_url_secondary, $profile_image]);
     }
 
     set_flash('success', 'Hero section berhasil diperbarui!');
@@ -55,16 +58,28 @@ require_once __DIR__ . '/../includes/header.php';
 
         <div class="row g-3">
             <div class="col-md-6">
-                <label class="form-label">Greeting / Salam</label>
+                <label class="form-label">Greeting / Salam (ID)</label>
                 <input type="text" name="greeting" class="form-control" value="<?= sanitize($hero['greeting'] ?? '') ?>" required>
             </div>
             <div class="col-md-6">
-                <label class="form-label">Main Headline</label>
+                <label class="form-label text-info"><i class="fas fa-language me-1"></i>Greeting / Salam (EN)</label>
+                <input type="text" name="greeting_en" class="form-control" value="<?= sanitize($hero['greeting_en'] ?? '') ?>" placeholder="e.g. Hello, I am">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Main Headline (ID)</label>
                 <input type="text" name="headline" class="form-control" value="<?= sanitize($hero['headline'] ?? '') ?>" required>
             </div>
-            <div class="col-12">
-                <label class="form-label">Sub-headline / Deskripsi Singkat</label>
+            <div class="col-md-6">
+                <label class="form-label text-info"><i class="fas fa-language me-1"></i>Main Headline (EN)</label>
+                <input type="text" name="headline_en" class="form-control" value="<?= sanitize($hero['headline_en'] ?? '') ?>" placeholder="e.g. Fullstack Developer">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Sub-headline / Deskripsi Singkat (ID)</label>
                 <textarea name="subheadline" class="form-control" rows="3" required><?= sanitize($hero['subheadline'] ?? '') ?></textarea>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label text-info"><i class="fas fa-language me-1"></i>Sub-headline / Deskripsi Singkat (EN)</label>
+                <textarea name="subheadline_en" class="form-control" rows="3" placeholder="English description..."><?= sanitize($hero['subheadline_en'] ?? '') ?></textarea>
             </div>
             <div class="col-md-6">
                 <label class="form-label">Teks Button Utama (CTA Primary)</label>

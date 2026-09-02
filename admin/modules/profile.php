@@ -10,7 +10,9 @@ $profile = $stmt->fetch();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $full_name = $_POST['full_name'] ?? '';
     $headline = $_POST['headline'] ?? '';
+    $headline_en = $_POST['headline_en'] ?? '';
     $about_text = $_POST['about_text'] ?? '';
+    $about_text_en = $_POST['about_text_en'] ?? '';
     $years_experience = $_POST['years_experience'] ?? 0;
     $projects_completed = $_POST['projects_completed'] ?? 0;
     $websites_built = $_POST['websites_built'] ?? 0;
@@ -29,11 +31,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($profile) {
-        $update_stmt = db()->prepare("UPDATE profile SET full_name=?, headline=?, about_text=?, years_experience=?, projects_completed=?, websites_built=?, technologies_count=?, resume_file=?, profile_image=? WHERE id=?");
-        $update_stmt->execute([$full_name, $headline, $about_text, $years_experience, $projects_completed, $websites_built, $technologies_count, $resume_file, $profile_image, $profile['id']]);
+        $update_stmt = db()->prepare("UPDATE profile SET full_name=?, headline=?, headline_en=?, about_text=?, about_text_en=?, years_experience=?, projects_completed=?, websites_built=?, technologies_count=?, resume_file=?, profile_image=? WHERE id=?");
+        $update_stmt->execute([$full_name, $headline, $headline_en, $about_text, $about_text_en, $years_experience, $projects_completed, $websites_built, $technologies_count, $resume_file, $profile_image, $profile['id']]);
     } else {
-        $insert_stmt = db()->prepare("INSERT INTO profile (full_name, headline, about_text, years_experience, projects_completed, websites_built, technologies_count, resume_file, profile_image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $insert_stmt->execute([$full_name, $headline, $about_text, $years_experience, $projects_completed, $websites_built, $technologies_count, $resume_file, $profile_image]);
+        $insert_stmt = db()->prepare("INSERT INTO profile (full_name, headline, headline_en, about_text, about_text_en, years_experience, projects_completed, websites_built, technologies_count, resume_file, profile_image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $insert_stmt->execute([$full_name, $headline, $headline_en, $about_text, $about_text_en, $years_experience, $projects_completed, $websites_built, $technologies_count, $resume_file, $profile_image]);
     }
 
     set_flash('success', 'Data Profil & About Me berhasil diperbarui!');
@@ -49,17 +51,25 @@ require_once __DIR__ . '/../includes/header.php';
 <div class="glass-card p-4">
     <form action="" method="POST" enctype="multipart/form-data">
         <div class="row g-3">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <label class="form-label">Nama Lengkap</label>
                 <input type="text" name="full_name" class="form-control" value="<?= sanitize($profile['full_name'] ?? '') ?>" required>
             </div>
-            <div class="col-md-6">
-                <label class="form-label">Headline / Profesi Utama</label>
+            <div class="col-md-4">
+                <label class="form-label">Headline / Profesi (ID)</label>
                 <input type="text" name="headline" class="form-control" value="<?= sanitize($profile['headline'] ?? '') ?>" required>
             </div>
-            <div class="col-12">
-                <label class="form-label">Bio Lengkap (About Me)</label>
+            <div class="col-md-4">
+                <label class="form-label text-info"><i class="fas fa-language me-1"></i>Headline / Profesi (EN)</label>
+                <input type="text" name="headline_en" class="form-control" value="<?= sanitize($profile['headline_en'] ?? '') ?>" placeholder="e.g. IT Specialist & Fullstack Dev">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Bio Lengkap (About Me - Bahasa Indonesia)</label>
                 <textarea name="about_text" class="form-control" rows="5" required><?= sanitize($profile['about_text'] ?? '') ?></textarea>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label text-info"><i class="fas fa-language me-1"></i>Bio Lengkap (About Me - English Translation)</label>
+                <textarea name="about_text_en" class="form-control" rows="5" placeholder="Full bio in English..."><?= sanitize($profile['about_text_en'] ?? '') ?></textarea>
             </div>
 
 

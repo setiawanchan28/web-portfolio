@@ -32,11 +32,12 @@ if ($action === 'delete_skill') {
 // Handle Save Skill Category
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_category'])) {
     $cat_name = $_POST['category_name'] ?? '';
+    $cat_name_en = $_POST['category_name_en'] ?? '';
     $order = $_POST['display_order'] ?? 0;
 
     if (!empty($cat_name)) {
-        $stmt = db()->prepare("INSERT INTO skill_categories (category_name, display_order) VALUES (?, ?)");
-        $stmt->execute([$cat_name, $order]);
+        $stmt = db()->prepare("INSERT INTO skill_categories (category_name, category_name_en, display_order) VALUES (?, ?, ?)");
+        $stmt->execute([$cat_name, $cat_name_en, $order]);
         set_flash('success', 'Kategori baru berhasil ditambahkan!');
     }
     header("Location: " . ADMIN_URL . "modules/skills.php");
@@ -47,11 +48,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_category'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_category'])) {
     $cat_id = $_POST['category_id'] ?? 0;
     $cat_name = $_POST['category_name'] ?? '';
+    $cat_name_en = $_POST['category_name_en'] ?? '';
     $order = $_POST['display_order'] ?? 0;
 
     if ($cat_id > 0 && !empty($cat_name)) {
-        $stmt = db()->prepare("UPDATE skill_categories SET category_name = ?, display_order = ? WHERE id = ?");
-        $stmt->execute([$cat_name, $order, $cat_id]);
+        $stmt = db()->prepare("UPDATE skill_categories SET category_name = ?, category_name_en = ?, display_order = ? WHERE id = ?");
+        $stmt->execute([$cat_name, $cat_name_en, $order, $cat_id]);
         set_flash('success', 'Kategori skill berhasil diperbarui!');
     }
     header("Location: " . ADMIN_URL . "modules/skills.php");
@@ -62,13 +64,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_category'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_skill'])) {
     $cat_id = $_POST['category_id'] ?? 0;
     $name = $_POST['name'] ?? '';
+    $name_en = $_POST['name_en'] ?? '';
     $level = $_POST['level_percentage'] ?? 85;
     $icon = $_POST['icon_class'] ?? 'fas fa-check-circle';
     $order = $_POST['display_order'] ?? 0;
 
     if (!empty($name) && $cat_id > 0) {
-        $stmt = db()->prepare("INSERT INTO skills (category_id, name, level_percentage, icon_class, display_order) VALUES (?, ?, ?, ?, ?)");
-        $stmt->execute([$cat_id, $name, $level, $icon, $order]);
+        $stmt = db()->prepare("INSERT INTO skills (category_id, name, name_en, level_percentage, icon_class, display_order) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$cat_id, $name, $name_en, $level, $icon, $order]);
         set_flash('success', 'Skill baru berhasil ditambahkan!');
     }
     header("Location: " . ADMIN_URL . "modules/skills.php");
@@ -80,12 +83,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_skill'])) {
     $skill_id = $_POST['skill_id'] ?? 0;
     $cat_id = $_POST['category_id'] ?? 0;
     $name = $_POST['name'] ?? '';
+    $name_en = $_POST['name_en'] ?? '';
     $icon = $_POST['icon_class'] ?? 'fas fa-check-circle';
     $order = $_POST['display_order'] ?? 0;
 
     if ($skill_id > 0 && !empty($name) && $cat_id > 0) {
-        $stmt = db()->prepare("UPDATE skills SET category_id = ?, name = ?, icon_class = ?, display_order = ? WHERE id = ?");
-        $stmt->execute([$cat_id, $name, $icon, $order, $skill_id]);
+        $stmt = db()->prepare("UPDATE skills SET category_id = ?, name = ?, name_en = ?, icon_class = ?, display_order = ? WHERE id = ?");
+        $stmt->execute([$cat_id, $name, $name_en, $icon, $order, $skill_id]);
         set_flash('success', 'Skill item berhasil diperbarui!');
     }
     header("Location: " . ADMIN_URL . "modules/skills.php");
@@ -134,9 +138,13 @@ $categories = db()->query("SELECT * FROM skill_categories ORDER BY display_order
                             <?php endforeach; ?>
                         </select>
                     </div>
-                    <div class="col-md-7">
-                        <label class="form-label">Nama Skill / Item Kemampuan</label>
-                        <input type="text" name="name" class="form-control" placeholder="Contoh: Network Maintenance, LAN, Website Development" required>
+                    <div class="col-md-6">
+                        <label class="form-label">Nama Skill (ID)</label>
+                        <input type="text" name="name" class="form-control" placeholder="Contoh: Network Maintenance" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-info"><i class="fas fa-language me-1"></i>Nama Skill (EN)</label>
+                        <input type="text" name="name_en" class="form-control" placeholder="e.g. Network Maintenance">
                     </div>
                     <div class="col-md-7">
                         <label class="form-label">Pilih Ikon Visual</label>

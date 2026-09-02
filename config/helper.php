@@ -180,3 +180,14 @@ function send_telegram_notification($name, $email, $phone, $subject, $message, $
     return true;
 }
 
+/**
+ * Get localized string from database item with fallback to Indonesian
+ */
+function get_trans($item, $field, $default = '') {
+    $current_lang = $_SESSION['lang'] ?? 'id';
+    if (is_array($item) && $current_lang === 'en' && !empty($item[$field . '_en'])) {
+        return $item[$field . '_en'];
+    }
+    return is_array($item) ? ($item[$field] ?? $default) : $default;
+}
+

@@ -118,10 +118,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_message'])) {
             <div class="row align-items-center g-5">
                 <div class="col-lg-7" data-aos="fade-right">
                     <span class="badge bg-dark border border-info text-info px-3 py-2 rounded-pill mb-3 fs-6">
-                        <i class="fas fa-sparkles me-2"></i><?= sanitize($hero['greeting'] ?? 'Halo, Saya') ?>
+                        <i class="fas fa-sparkles me-2"></i><?= sanitize(get_trans($hero, 'greeting', 'Halo, Saya')) ?>
                     </span>
-                    <h1 class="hero-title"><?= sanitize($hero['headline'] ?? 'Building Digital Experiences') ?></h1>
-                    <p class="lead text-muted mb-4 fs-5" style="max-width: 600px;"><?= sanitize($hero['subheadline'] ?? '') ?></p>
+                    <h1 class="hero-title"><?= sanitize(get_trans($hero, 'headline', 'Building Digital Experiences')) ?></h1>
+                    <p class="lead text-muted mb-4 fs-5" style="max-width: 600px;"><?= sanitize(get_trans($hero, 'subheadline')) ?></p>
 
                     <div class="d-flex flex-wrap gap-3 mb-4">
                         <a href="<?= sanitize($hero['cta_url_primary'] ?? '#projects') ?>" class="btn btn-futuristic">
@@ -160,8 +160,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_message'])) {
                     </div>
                     <div class="col-lg-8">
                         <h2 class="text-info fw-bold mb-2"><?= $t['about_me'] ?></h2>
-                        <h4 class="text-white mb-3"><?= sanitize($profile['headline'] ?? '') ?></h4>
-                        <p class="text-muted lead fs-6 mb-4" style="white-space: pre-wrap;"><?= sanitize($profile['about_text'] ?? '') ?></p>
+                        <h4 class="text-white mb-3"><?= sanitize(get_trans($profile, 'headline')) ?></h4>
+                        <p class="text-muted lead fs-6 mb-4" style="white-space: pre-wrap;"><?= sanitize(get_trans($profile, 'about_text')) ?></p>
 
 
 
@@ -189,7 +189,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_message'])) {
                     <div class="col-lg-4 col-md-6" data-aos="fade-up">
                         <div class="glass-box p-4 h-100">
                             <h4 class="text-info mb-4 border-bottom border-secondary border-opacity-25 pb-3">
-                                <i class="fas fa-layer-group me-2"></i><?= sanitize($cat['category_name']) ?>
+                                <i class="fas fa-layer-group me-2"></i><?= sanitize(get_trans($cat, 'category_name')) ?>
                             </h4>
 
                             <?php
@@ -202,7 +202,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_message'])) {
                                 <?php foreach ($cat_skills as $sk): ?>
                                     <li class="d-flex align-items-center mb-3 text-light">
                                         <i class="<?= sanitize(!empty($sk['icon_class']) ? $sk['icon_class'] : 'fas fa-check-circle') ?> text-info me-3 fs-5" style="width: 24px; text-align: center;"></i>
-                                        <span class="fw-medium"><?= sanitize($sk['name']) ?></span>
+                                        <span class="fw-medium"><?= sanitize(get_trans($sk, 'name')) ?></span>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>
@@ -245,8 +245,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_message'])) {
                                     <span class="badge bg-dark border border-info text-info"><?= sanitize($pj['category']) ?></span>
                                     <small class="text-muted"><?= sanitize($pj['project_year']) ?></small>
                                 </div>
-                                <h4 class="text-white fw-bold mb-2"><?= sanitize($pj['title']) ?></h4>
-                                <p class="text-muted small mb-4 flex-grow-1"><?= sanitize($pj['short_description']) ?></p>
+                                <h4 class="text-white fw-bold mb-2"><?= sanitize(get_trans($pj, 'title')) ?></h4>
+                                <p class="text-muted small mb-4 flex-grow-1"><?= sanitize(get_trans($pj, 'short_description')) ?></p>
 
                                 <div class="d-flex gap-2">
                                     <?php if (!empty($pj['demo_url'])): ?>
@@ -280,14 +280,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_message'])) {
                                 <div class="glass-box p-4">
                                     <div class="d-flex justify-content-between align-items-start mb-2">
                                         <div>
-                                            <h4 class="text-info fw-bold mb-0"><?= sanitize($ex['position']) ?></h4>
-                                            <h6 class="text-white"><?= sanitize($ex['company']) ?> <small class="text-muted">| <?= sanitize($ex['location']) ?></small></h6>
+                                            <h4 class="text-info fw-bold mb-0"><?= sanitize(get_trans($ex, 'position')) ?></h4>
+                                            <h6 class="text-white"><?= sanitize(get_trans($ex, 'company')) ?> <small class="text-muted">| <?= sanitize($ex['location']) ?></small></h6>
                                         </div>
                                         <span class="badge bg-dark border border-secondary text-light">
                                             <?= sanitize($ex['start_date']) ?> - <?= $ex['is_current'] ? $t['present'] : sanitize($ex['end_date']) ?>
                                         </span>
                                     </div>
-                                    <p class="text-muted mb-3" style="white-space: pre-wrap;"><?= sanitize($ex['description']) ?></p>
+                                    <p class="text-muted mb-3" style="white-space: pre-wrap;"><?= sanitize(get_trans($ex, 'description')) ?></p>
                                     <?php if (!empty($ex['tech_used'])): ?>
                                         <div class="text-info small"><i class="fas fa-tools me-2"></i>Tech: <?= sanitize($ex['tech_used']) ?></div>
                                     <?php endif; ?>
@@ -315,8 +315,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_message'])) {
                             <div class="mb-3 text-info fs-1">
                                 <i class="<?= sanitize($srv['icon_class']) ?>"></i>
                             </div>
-                            <h4 class="text-white fw-bold mb-3"><?= sanitize($srv['title']) ?></h4>
-                            <p class="text-muted"><?= sanitize($srv['short_description']) ?></p>
+                            <h4 class="text-white fw-bold mb-3"><?= sanitize(get_trans($srv, 'title')) ?></h4>
+                            <p class="text-muted"><?= sanitize(get_trans($srv, 'short_description')) ?></p>
                         </div>
                     </div>
                 <?php endforeach; ?>

@@ -43,8 +43,11 @@ CREATE TABLE IF NOT EXISTS `site_settings` (
 CREATE TABLE IF NOT EXISTS `hero` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `greeting` VARCHAR(100) DEFAULT 'Halo, Saya',
+  `greeting_en` VARCHAR(100) DEFAULT 'Hello, I am',
   `headline` VARCHAR(255) DEFAULT 'Pranata Komputer & Fullstack Developer',
+  `headline_en` VARCHAR(255) DEFAULT 'IT Specialist & Fullstack Developer',
   `subheadline` TEXT,
+  `subheadline_en` TEXT,
   `cta_text_primary` VARCHAR(50) DEFAULT 'Lihat Portfolio',
   `cta_url_primary` VARCHAR(255) DEFAULT '#projects',
   `cta_text_secondary` VARCHAR(50) DEFAULT 'Hubungi Saya',
@@ -58,7 +61,9 @@ CREATE TABLE IF NOT EXISTS `profile` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `full_name` VARCHAR(100) DEFAULT '[NAMA LENGKAP]',
   `headline` VARCHAR(200) DEFAULT 'IT & Software Engineering Specialist',
+  `headline_en` VARCHAR(200) DEFAULT NULL,
   `about_text` LONGTEXT,
+  `about_text_en` LONGTEXT,
   `years_experience` INT DEFAULT 5,
   `projects_completed` INT DEFAULT 30,
   `websites_built` INT DEFAULT 25,
@@ -71,6 +76,7 @@ CREATE TABLE IF NOT EXISTS `profile` (
 CREATE TABLE IF NOT EXISTS `skill_categories` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `category_name` VARCHAR(100) NOT NULL,
+  `category_name_en` VARCHAR(100) DEFAULT NULL,
   `display_order` INT DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -79,6 +85,7 @@ CREATE TABLE IF NOT EXISTS `skills` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `category_id` INT NOT NULL,
   `name` VARCHAR(100) NOT NULL,
+  `name_en` VARCHAR(100) DEFAULT NULL,
   `level_percentage` INT DEFAULT 85,
   `icon_class` VARCHAR(100) DEFAULT 'fas fa-code',
   `display_order` INT DEFAULT 0,
@@ -89,10 +96,13 @@ CREATE TABLE IF NOT EXISTS `skills` (
 CREATE TABLE IF NOT EXISTS `projects` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `title` VARCHAR(200) NOT NULL,
+  `title_en` VARCHAR(200) DEFAULT NULL,
   `slug` VARCHAR(200) NOT NULL UNIQUE,
   `category` ENUM('Web', 'Application', 'UI/UX', 'Data', 'Other') DEFAULT 'Web',
   `short_description` TEXT,
+  `short_description_en` TEXT,
   `full_description` LONGTEXT,
+  `full_description_en` LONGTEXT,
   `thumbnail` VARCHAR(255) DEFAULT NULL,
   `demo_url` VARCHAR(255) DEFAULT NULL,
   `github_url` VARCHAR(255) DEFAULT NULL,
@@ -117,12 +127,15 @@ CREATE TABLE IF NOT EXISTS `project_images` (
 CREATE TABLE IF NOT EXISTS `experiences` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `position` VARCHAR(150) NOT NULL,
+  `position_en` VARCHAR(150) DEFAULT NULL,
   `company` VARCHAR(150) NOT NULL,
+  `company_en` VARCHAR(150) DEFAULT NULL,
   `location` VARCHAR(100) DEFAULT NULL,
   `start_date` VARCHAR(50) NOT NULL,
   `end_date` VARCHAR(50) DEFAULT 'Present',
   `is_current` TINYINT(1) DEFAULT 0,
   `description` TEXT,
+  `description_en` TEXT,
   `tech_used` VARCHAR(255) DEFAULT NULL,
   `display_order` INT DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -143,8 +156,10 @@ CREATE TABLE IF NOT EXISTS `educations` (
 CREATE TABLE IF NOT EXISTS `services` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `title` VARCHAR(150) NOT NULL,
+  `title_en` VARCHAR(150) DEFAULT NULL,
   `icon_class` VARCHAR(100) DEFAULT 'fas fa-laptop-code',
   `short_description` TEXT,
+  `short_description_en` TEXT,
   `display_order` INT DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
